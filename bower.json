@@ -1,0 +1,1 @@
+{  "name": "seedr-boilerplate",  "version": "1.0.0",  "private": true,  "dependencies": {    "jquery": "~2.1.1",    "polymer": "Polymer/polymer#~0.3.4"  },  "devDependencies": {    "requirejs": "~2.1.14"  }}
