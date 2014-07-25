@@ -1,0 +1,73 @@
+<!doctype html>
+<html class="no-js" lang="en-us">
+    <head>
+        <!-- Meta Header -->
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!--[if IE]><meta http-equiv="cleartype" content="on" /><![endif]-->
+        <!-- End Meta Header -->
+
+        <title>The Seedr Boilerplate</title>
+
+        <!-- Stylesheets -->
+        <link rel="stylesheet" media="screen, projection" href="assets/css/screen.css" />
+        <!--[if IE 9]><link rel="stylesheet" media="screen, projection" href="assets/css/ie9-fixes.css" /><![endif]-->
+        <!-- End Stylesheets -->
+    </head>
+
+    <body>
+        <!-- Application Start -->
+        <div class="app-view"></div>
+        <!-- End Application -->
+
+        <!-- Application Settings -->
+        <script src="assets/vendors/requirejs/require.js"></script>
+        <script src="assets/scripts/config.js"></script>
+        <script>
+            /**
+             * The APP global class is the base class that contains all
+             * other global settings. This allows for easy access to those
+             * variables in our application components.
+             *
+             * @class APP
+             * @static
+             */
+            window.APP = {};
+
+            /**
+             * Flag that lets us know if we are in a production environment.
+             *
+             * @property PRODUCTION
+             * @type Boolean
+             * @final
+             */
+            APP.PRODUCTION = false,
+
+            /**
+             * The path to our application script files.
+             *
+             * @property SCRIPT_PATH
+             * @type String
+             * @final
+             */
+            APP.SCRIPT_PATH = 'assets/scripts/';
+
+            /**
+             * The RequireJS configuration. These configurations are in
+             * addition to the to the configuration setup in the config.js
+             * script.
+             */
+             require.config({
+                 baseUrl: APP.SCRIPT_PATH,
+                 urlArgs: 'v=' + APP.VERSION + (APP.PRODUCTION ? '' : '&id='
+                               + Math.random())
+             });
+
+             /**
+              * Kick-off our requirejs application.
+              */
+             require(['main']);
+        </script>
+        <!-- End Application Settings -->
+    </body>
+</html>

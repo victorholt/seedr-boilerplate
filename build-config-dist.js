@@ -1,3 +1,6 @@
+/* jshint node:true, laxbreak: true */
+'use strict';
+
 /**
  * Build configuration constants.
  *
@@ -10,15 +13,19 @@
 
 var BuildConfig = {
     /**
-     * The grunt banner that goes above all
+     * The file banner that goes above all
      * generated files.
      *
-     * @property GRUNT_BANNER
+     * @property FILE_BANNER
      * @type String
      */
-    GRUNT_BANNER =  [
-        'THIS IS A GENERATED FILE AND SHOULD NOT BE EDITTED!',
-    ],
+    FILE_BANNER:  [
+        ' * THIS IS A GENERATED FILE AND SHOULD NOT BE EDITTED!',
+        ' *',
+        ' * <%= pkg.name %>, <%= pkg.version %>',
+        ' * <%= pkg.description %>',
+        ' * Built: <%= grunt.template.today("yyyy-mm-dd") %>'
+    ].join('\n'),
 
     /**
      * The build source diretory.
@@ -26,7 +33,7 @@ var BuildConfig = {
      * @property DIR_SRC
      * @type String
      */
-    DIR_SRC = './src',
+    DIR_SRC: './src',
 
     /**
      * The build destination directory.
@@ -34,5 +41,7 @@ var BuildConfig = {
      * @property DIR_BUILD
      * @type String
      */
-    DIR_DEST = './web'
+    DIR_DEST: './public'
 };
+
+module.exports = BuildConfig;
