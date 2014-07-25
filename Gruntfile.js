@@ -195,35 +195,35 @@ module.exports = function(grunt) {
                 files: ['<%= buildConfig.DIR_SRC %>/**/*.html'],
                 tasks: ['markup']
             }
-        },
-
-        ///////////////////////////////////////////////////////////////////////
-        // REGISTER TASKS
-        ///////////////////////////////////////////////////////////////////////
-
-        /**
-         * Define our default task based upon our environment.
-         */
-        if (grunt.option('prod')) {
-            grunt.registerTask('default', ['build', 'lint']);
-        } else {
-            grunt.registerTask('default', ['build']);
-        }
-
-        /**
-         * Custom tasks.
-         */
-        grunt.registerTask('build', ['clean:dest', 'media', 'markup', 'css', 'scripts']);
-        grunt.registerTask('lint', ['jshint']);
-        grunt.registerTask('media', ['copy:media']);
-        grunt.registerTask('markup', ['copy:markup']);
-
-        if (grunt.option('prod')) {
-            grunt.registerTask('css', ['concat', 'usebanner:css']);
-            grunt.registerTask('scripts', ['copy:scripts', 'userbanner:scripts']);
-        } else {
-            grunt.registerTask('css', ['concat', 'usebanner:css']);
-            grunt.registerTask('scripts', ['require:main', 'copy:scripts', 'userbanner:scripts']);
         }
     });
+
+    ///////////////////////////////////////////////////////////////////////////
+    // REGISTER TASKS
+    ///////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Define our default task based upon our environment.
+     */
+    if (grunt.option('prod')) {
+        grunt.registerTask('default', ['build', 'lint']);
+    } else {
+        grunt.registerTask('default', ['build']);
+    }
+
+    /**
+     * Custom tasks.
+     */
+    grunt.registerTask('build', ['clean:dest', 'media', 'markup', 'css', 'scripts']);
+    grunt.registerTask('lint', ['jshint']);
+    grunt.registerTask('media', ['copy:media']);
+    grunt.registerTask('markup', ['copy:markup']);
+
+    if (grunt.option('prod')) {
+        grunt.registerTask('css', ['concat', 'usebanner:css']);
+        grunt.registerTask('scripts', ['copy:scripts', 'userbanner:scripts']);
+    } else {
+        grunt.registerTask('css', ['concat', 'usebanner:css']);
+        grunt.registerTask('scripts', ['require:main', 'copy:scripts', 'userbanner:scripts']);
+    }
 };
