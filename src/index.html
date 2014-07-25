@@ -25,14 +25,14 @@
         <script src="assets/scripts/config.js"></script>
         <script>
             /**
-             * The APP global class is the base class that contains all
+             * The CONFIG global class is the base class that contains all
              * other global settings. This allows for easy access to those
              * variables in our application components.
              *
-             * @class APP
+             * @class CONFIG
              * @static
              */
-            window.APP = {};
+            window.CONFIG = {};
 
             /**
              * Flag that lets us know if we are in a production environment.
@@ -41,7 +41,7 @@
              * @type Boolean
              * @final
              */
-            APP.PRODUCTION = false,
+            CONFIG.PRODUCTION = false,
 
             /**
              * The path to our application script files.
@@ -50,7 +50,7 @@
              * @type String
              * @final
              */
-            APP.SCRIPT_PATH = 'assets/scripts/';
+            CONFIG.SCRIPT_PATH = 'assets/scripts/';
 
             /**
              * The RequireJS configuration. These configurations are in
@@ -58,9 +58,9 @@
              * script.
              */
              require.config({
-                 baseUrl: APP.SCRIPT_PATH,
-                 urlArgs: 'v=' + APP.VERSION + (APP.PRODUCTION ? '' : '&id='
-                               + Math.random())
+                 baseUrl: CONFIG.SCRIPT_PATH,
+                 urlArgs: 'v=' + CONFIG.VERSION + (CONFIG.PRODUCTION ? '' :
+                               '&id=' + Math.random())
              });
 
              /**

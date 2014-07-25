@@ -6,6 +6,9 @@ module.exports = function(grunt) {
     // Required Modules
     ///////////////////////////////////////////////////////////////////////////
 
+    require('load-grunt-tasks')(grunt);
+    require('nopt-grunt')(grunt);
+
     /**
      * Any modules needed before setting up Grunt should be included here.
      */
@@ -47,10 +50,10 @@ module.exports = function(grunt) {
         /**
          * Our build configuration.
          */
-        buildConfig: require('build-config'),
+        buildConfig: require('./build-config'),
 
         ///////////////////////////////////////////////////////////////////////
-        // GRUNT TASKS
+        // STARTUP TASKS
         ///////////////////////////////////////////////////////////////////////
 
         /**
@@ -61,7 +64,8 @@ module.exports = function(grunt) {
             options: {
                 force: true
             },
-            dest: ['<%= buildConfig.DIR_DEST %>']
+            dest: ['<%= buildConfig.DIR_DEST %>'],
+            tmp: ['<%= buildConfig.DIR_TMP %>']
         },
 
         /**
@@ -75,6 +79,15 @@ module.exports = function(grunt) {
                     cwd: '<%= buildConfig.DIR_SRC %>',
                     dest: '<%= buildConfig.DIR_DEST %>',
                     src: ['assets/{css,vendors}/**/*.css']
+                }]
+            },
+
+            markup: {
+                files: [{
+                    expand: true,
+                    cwd: '<%= buildConfig.DIR_SRC %>',
+                    dest: '<%= buildConfig.DIR_DEST %>',
+                    src: ['**/*.html', '!assets/vendors/**']
                 }]
             },
 
@@ -100,13 +113,17 @@ module.exports = function(grunt) {
             }
         },
 
+        ///////////////////////////////////////////////////////////////////////
+        // OPTIMIZE TASKS
+        ///////////////////////////////////////////////////////////////////////
+
         /**
          * Handles configuring the RequireJS build to optimize and minify
          * the application javascript files.
          */
         requirejs: {
             options: {
-                baseUrl: '<%= buildConfig.DIR_SRC/assets/scripts %>',
+                baseUrl: '<%= buildConfig.DIR_SRC %>/assets/scripts',
                 useStrict: true,
                 optimize: grunt.option('dev') ? 'none' : 'uglify2',
                 uglify2: {
@@ -119,16 +136,79 @@ module.exports = function(grunt) {
                     },
                     warnings: false,
                     mangle: true
-                },
-                main: {
-                    options: {
-                        mainConfigFile: '<%= buildConfig.DIR_SRC %>/assets/scripts/config.js',
-                        name: 'main',
-                        out: '<%= buildConfig.DIR_DEST %>/assets/scripts/main.js'
-                    }
+                }
+            },
+            main: {
+                options: {
+                    mainConfigFile: '<%= buildConfig.DIR_SRC %>/assets/scripts/config.js',
+                    name: 'main',
+                    out: '<%= buildConfig.DIR_DEST %>/assets/scripts/main.js'
                 }
             }
         },
+
+        ///////////////////////////////////////////////////////////////////////
+        // STYLE TASKS
+        ///////////////////////////////////////////////////////////////////////
+
+        sass: {
+            compile: {
+                options: {
+                    style: 'expanded'
+                },
+                files: [{
+                    expand: true,
+                    cwd: '<%= buildConfig.DIR_SRC %>/assets/scss',
+                    src: ['*.scss'],
+                    dest: '<%= buildConfig.DIR_TMP %>/assets/css',
+                    ext: '.css'
+                }]
+            }
+        },
+
+        cssmin: {
+            all: {
+                files: [{
+                    expand: true,
+                    cwd: '<%= buildConfig.DIR_TMP %>/assets/css',
+                    src: ['*.css'],
+                    dest: '<%= buildConfig.DIR_DEST %>/assets/css',
+                    ext: '.min.css'
+                }]
+            }
+        },
+
+        ///////////////////////////////////////////////////////////////////////
+        // LINTING TASKS
+        ///////////////////////////////////////////////////////////////////////
+
+        csslint: {
+            options: {
+                csslintrc: '.csslintrc'
+            },
+            all: {
+                src: [
+                    '<%= buildConfig.DIR_TMP %>/css/**/*.css'
+                ]
+            }
+        },
+
+        jshint: {
+            options: {
+                jshintrc: '.jshintrc',
+                force: true
+            },
+            all: {
+                src: [
+                    'Gruntfile.js',
+                    '<%= env.DIR_SRC %>/scripts/**/*.js'
+                ]
+            }
+        },
+
+        ///////////////////////////////////////////////////////////////////////
+        // HELPER TASKS
+        ///////////////////////////////////////////////////////////////////////
 
         /**
          * The grunt-banner allows us to place a banner on generated files
@@ -141,7 +221,7 @@ module.exports = function(grunt) {
 
             css: {
                 options: {
-                    banner: '/*!<%= buildConfig.FILE_BANNER %> */\n'
+                    banner: '/*\n<%= buildConfig.FILE_BANNER %> */\n'
                 },
                 files: {
                     src: ['<%= buildConfig.DIR_DEST %>/assets/css/**/*.css']
@@ -150,7 +230,7 @@ module.exports = function(grunt) {
 
             markup: {
                 options: {
-                    banner: '<!-- <%= buildConfig.FILE_BANNER %> -->\n'
+                    banner: '<!--\n <%= buildConfig.FILE_BANNER %>\n -->\n'
                 },
                 files: {
                     src: ['<%= buildConfig.DIR_DEST %>/**/*.html']
@@ -159,7 +239,7 @@ module.exports = function(grunt) {
 
             scripts: {
                 options: {
-                    banner: '/*!<%= buildConfig.FILE_BANNER %> */\n'
+                    banner: '/*\n<%= buildConfig.FILE_BANNER %> */\n'
                 },
                 files: {
                     src: ['<%= buildConfig.DIR_DEST %>/assets/scripts/**/*.js']
@@ -177,23 +257,60 @@ module.exports = function(grunt) {
             },
             grunt: {
                 files: ['Gruntfile.js'],
-                tasks: ['build']
+                tasks: ['build', 'notify:build']
             },
             media: {
                 files: ['<%= buildConfig.DIR_SRC %>/assets/media/**'],
-                tasks: ['media']
+                tasks: ['media', 'notify:media']
             },
             css: {
                 files: ['<%= buildConfig.DIR_SRC %>/assets/{css,vendors}/**/*.css'],
-                tasks: ['css']
+                tasks: ['css', 'notify:css']
             },
             scripts: {
                 files: ['<%= buildConfig.DIR_SRC %>/assets/{scripts,vendors}/**/*.js'],
-                tasks: ['scripts']
+                tasks: ['scripts', 'notify:scripts']
             },
             markup: {
                 files: ['<%= buildConfig.DIR_SRC %>/**/*.html'],
-                tasks: ['markup']
+                tasks: ['markup', 'notify:markup']
+            }
+        },
+
+        /**
+         * Notify messages when in the grunt watch mode so that we can
+         * know when the build process has been executed.
+         */
+        notify: {
+            build: {
+                options: {
+                    title: 'Grunt Build Complete',
+                    message: 'Build Tasks Finished'
+                }
+            },
+            media: {
+                options: {
+                    title: 'Grunt Build Complete',
+                    message: 'Media Tasks Finished'
+                }
+            },
+            css: {
+                options: {
+                    title: 'Grunt Build Complete',
+                    message: 'CSS Tasks Finished'
+                }
+            },
+            scripts: {
+                options: {
+                    title: 'Grunt Build Complete',
+                    message: 'Scripts Tasks Finished'
+                }
+            },
+            markup: {
+                options: {
+                    title: 'Grunt Build Complete',
+                    message: 'Markup Tasks Finished'
+                }
             }
         }
     });
@@ -214,16 +331,16 @@ module.exports = function(grunt) {
     /**
      * Custom tasks.
      */
-    grunt.registerTask('build', ['clean:dest', 'media', 'markup', 'css', 'scripts']);
+    grunt.registerTask('build', ['clean:dest', 'media', 'markup', 'css', 'scripts', 'clean:tmp']);
     grunt.registerTask('lint', ['jshint']);
     grunt.registerTask('media', ['copy:media']);
     grunt.registerTask('markup', ['copy:markup']);
 
     if (grunt.option('prod')) {
-        grunt.registerTask('css', ['concat', 'usebanner:css']);
-        grunt.registerTask('scripts', ['copy:scripts', 'userbanner:scripts']);
+        grunt.registerTask('css', ['sass', 'cssmin', 'usebanner:css']);
+        grunt.registerTask('scripts', ['requirejs:main', 'copy:scripts', 'userbanner:scripts']);
     } else {
-        grunt.registerTask('css', ['concat', 'usebanner:css']);
-        grunt.registerTask('scripts', ['require:main', 'copy:scripts', 'userbanner:scripts']);
+        grunt.registerTask('css', ['sass', 'cssmin', 'usebanner:css']);
+        grunt.registerTask('scripts', ['copy:scripts', 'usebanner:scripts']);
     }
 };

@@ -41,7 +41,15 @@ var BuildConfig = {
      * @property DIR_BUILD
      * @type String
      */
-    DIR_DEST: './public'
+    DIR_DEST: './public',
+
+    /**
+     * The temporary directory for storing files during Grunt tasks.
+     *
+     * @property DIR_TMP
+     * @type String
+     */
+    DIR_TMP: './tmp'
 };
 
 module.exports = BuildConfig;
