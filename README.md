@@ -1,6 +1,5 @@
 Seedr Boilerplate
 =================
-
 Seedr is a web application boilerplate for a new web project.
 
 ##Requirements
@@ -19,7 +18,6 @@ Seedr is a web application boilerplate for a new web project.
 Ensure your NodeJS and Bower installation is current.
 
 ##Running Demo
-
 There are a number of ways to run the demo, although the following steps below
 get the demo application up and running the quickest.
 
