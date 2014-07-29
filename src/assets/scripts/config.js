@@ -7,7 +7,8 @@
 
 require.config({
     paths: {
-        'requirejs': ''
+        'requirejs': './../vendors/requirejs/require',
+        'jquery': './../vendors/jquery/dist/jquery.min'
     },
 
     shim: {

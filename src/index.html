@@ -10,8 +10,8 @@
         <title>The Seedr Boilerplate</title>
 
         <!-- Stylesheets -->
-        <link rel="stylesheet" media="screen, projection" href="assets/css/screen.css" />
-        <!--[if IE 9]><link rel="stylesheet" media="screen, projection" href="assets/css/ie9-fixes.css" /><![endif]-->
+        <link rel="stylesheet" media="screen, projection" href="assets/css/main.min.css" />
+        <!--[if IE 9]><link rel="stylesheet" media="screen, projection" href="assets/css/ie9-fixes.min.css" /><![endif]-->
         <!-- End Stylesheets -->
     </head>
 
@@ -33,6 +33,15 @@
              * @static
              */
             window.CONFIG = {};
+
+            /**
+             * The version number of the application.
+             *
+             * @property VERSION
+             * @type String
+             * @final
+             */
+            CONFIG.VERSION = '0.0.1';
 
             /**
              * Flag that lets us know if we are in a production environment.

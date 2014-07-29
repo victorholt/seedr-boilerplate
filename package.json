@@ -5,6 +5,7 @@
   "private": true,
   "dependencies": {},
   "devDependencies": {
+    "express": "^4.7.0",
     "grunt": "^0.4.5",
     "grunt-banner": "^0.2.3",
     "grunt-contrib-clean": "^0.5.0",
@@ -17,6 +18,7 @@
     "grunt-contrib-sass": "^0.7.3",
     "grunt-contrib-uglify": "^0.5.0",
     "grunt-contrib-watch": "^0.6.1",
+    "grunt-notify": "^0.3.0",
     "load-grunt-tasks": "^0.6.0",
     "nopt-grunt": "^0.1.1"
   }

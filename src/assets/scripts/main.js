@@ -4,9 +4,9 @@ require(
  * as an entry-point to all of our components for the application.
  */
 [
-    './app/app'
+    './app'
 ],
-function(app) {
+function(App) {
     'use strict';
 
     // Startup our application.

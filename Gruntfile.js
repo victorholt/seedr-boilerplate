@@ -106,7 +106,7 @@ module.exports = function(grunt) {
                     cwd: '<%= buildConfig.DIR_SRC %>',
                     dest: '<%= buildConfig.DIR_DEST %>',
                     src: [
-                        'assets/scripts/**/.js',
+                        'assets/scripts/**/*.js',
                         'assets/vendors/**/*.js'
                     ]
                 }]
@@ -261,19 +261,19 @@ module.exports = function(grunt) {
             },
             media: {
                 files: ['<%= buildConfig.DIR_SRC %>/assets/media/**'],
-                tasks: ['media', 'notify:media']
+                tasks: ['media', 'clean:tmp', 'notify:media']
             },
             css: {
-                files: ['<%= buildConfig.DIR_SRC %>/assets/{css,vendors}/**/*.css'],
-                tasks: ['css', 'notify:css']
+                files: ['<%= buildConfig.DIR_SRC %>/assets/{scss,vendors}/**/*.scss'],
+                tasks: ['css', 'clean:tmp', 'notify:css']
             },
             scripts: {
                 files: ['<%= buildConfig.DIR_SRC %>/assets/{scripts,vendors}/**/*.js'],
-                tasks: ['scripts', 'notify:scripts']
+                tasks: ['scripts', 'clean:tmp', 'notify:scripts']
             },
             markup: {
                 files: ['<%= buildConfig.DIR_SRC %>/**/*.html'],
-                tasks: ['markup', 'notify:markup']
+                tasks: ['markup', 'clean:tmp', 'notify:markup']
             }
         },
 
@@ -332,7 +332,7 @@ module.exports = function(grunt) {
      * Custom tasks.
      */
     grunt.registerTask('build', ['clean:dest', 'media', 'markup', 'css', 'scripts', 'clean:tmp']);
-    grunt.registerTask('lint', ['jshint']);
+    grunt.registerTask('lint', ['csslint', 'jshint']);
     grunt.registerTask('media', ['copy:media']);
     grunt.registerTask('markup', ['copy:markup']);
 
