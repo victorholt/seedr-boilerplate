@@ -11,6 +11,7 @@ Seedr is a web application boilerplate for a new web project.
 
 ##Installation
 
+- Copy `build-config-dist.js` to `build-config.js`
 - Run `npm install` in root directory
 - Run `bower install` in root directory
 - Run `grunt build` in the root directory
