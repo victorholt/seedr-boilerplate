@@ -142,7 +142,7 @@ module.exports = function(grunt) {
                 options: {
                     mainConfigFile: '<%= buildConfig.DIR_SRC %>/assets/scripts/config.js',
                     name: 'main',
-                    out: '<%= buildConfig.DIR_DEST %>/assets/scripts/main.js'
+                    out: '<%= buildConfig.DIR_DEST %>/assets/scripts/main.min.js'
                 }
             }
         },
@@ -338,7 +338,7 @@ module.exports = function(grunt) {
 
     if (grunt.option('prod')) {
         grunt.registerTask('css', ['sass', 'cssmin', 'usebanner:css']);
-        grunt.registerTask('scripts', ['requirejs:main', 'copy:scripts', 'userbanner:scripts']);
+        grunt.registerTask('scripts', ['copy:scripts', 'requirejs:main', 'usebanner:scripts']);
     } else {
         grunt.registerTask('css', ['sass', 'cssmin', 'usebanner:css']);
         grunt.registerTask('scripts', ['copy:scripts', 'usebanner:scripts']);
