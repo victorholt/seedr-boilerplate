@@ -24,7 +24,7 @@ var BuildConfig = {
         ' *',
         ' * <%= pkg.name %>, <%= pkg.version %>',
         ' * <%= pkg.description %>',
-        ' * Built: <%= grunt.template.today("yyyy-mm-dd") %>'
+        ' * Built: <%= buildDate %>'
     ].join('\n'),
 
     /**

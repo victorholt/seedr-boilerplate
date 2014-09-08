@@ -6,7 +6,7 @@
 ///////////////////////////////////////////////////////////////////////////
 var path = require('path');
 var gulp = require('gulp');
-var del = require('del');
+var clean = require('gulp-clean');
 var rename = require('gulp-rename');
 var rjs = require('gulp-requirejs');
 var sass = require('gulp-sass');
@@ -15,12 +15,14 @@ var csslint = require('gulp-csslint');
 var jshint = require('gulp-jshint');
 var header = require('gulp-header');
 var notify = require('gulp-notify');
+var runSequence = require('run-sequence');
 
 ///////////////////////////////////////////////////////////////////////////
 // Global build variables.
 ///////////////////////////////////////////////////////////////////////////
 var pkg = require('./package.json');
 var buildConfig = require('./build-config');
+var buildDate = new Date().toISOString();
 var production = 0;
 
 ///////////////////////////////////////////////////////////////////////////
@@ -30,20 +32,18 @@ var production = 0;
 /**
  * Cleans up the build files created.
  */
-function gulpCleanDest(cb) {
-    del([
-        buildConfig.DEST_DIR
-    ], cb);
+function gulpCleanDest() {
+    return gulp.src(buildConfig.DIR_DEST, {force: true, read: false})
+               .pipe(clean());
 }
 gulp.task('clean-dest', gulpCleanDest);
 
 /**
  * Cleans up the build files created.
  */
-function gulpCleanTmp(cb) {
-    del([
-        buildConfig.TMP_DIR
-    ], cb);
+function gulpCleanTmp() {
+    return gulp.src(buildConfig.DIR_TMP, {force: true, read: false})
+               .pipe(clean());
 }
 gulp.task('clean-tmp', gulpCleanTmp);
 
@@ -56,17 +56,17 @@ gulp.task('clean-tmp', gulpCleanTmp);
 function gulpCopyCss(cb) {
     return gulp.src(
         [
-            path.join(buildConfig.DIR_SRC, 'assets/{css,vendors}/**/*.css')
+            path.join(buildConfig.DIR_TMP, 'assets/**/*.css')
         ]
     )
-    .pipe(gulp.dest(buildConfig.DIR_DEST));
+    .pipe(gulp.dest(path.join(buildConfig.DIR_DEST, 'assets')));
 }
 
 function gulpCopyMarkup(cb) {
     return gulp.src(
         [
             path.join(buildConfig.DIR_SRC, '**/*.html'),
-            path.join(buildConfig.DIR_SRC, '!assets/vendors/**')
+            '!' + path.join(buildConfig.DIR_SRC, 'assets/vendors/**')
         ]
     )
     .pipe(gulp.dest(buildConfig.DIR_DEST));
@@ -78,17 +78,16 @@ function gulpCopyMedia(cb) {
             path.join(buildConfig.DIR_SRC, 'assets/media/**')
         ]
     )
-    .pipe(gulp.dest(buildConfig.DIR_DEST));
+    .pipe(gulp.dest(path.join(buildConfig.DIR_DEST, 'assets/media')));
 }
 
 function gulpCopyScripts(cb) {
     return gulp.src(
         [
-            path.join(buildConfig.DIR_SRC, 'assets/scripts/**/*.js'),
-            path.join(buildConfig.DIR_SRC, 'assets/vendors/**/*.js')
+            path.join(buildConfig.DIR_SRC, 'assets/**/*.js')
         ]
     )
-    .pipe(gulp.dest(buildConfig.DIR_DEST));
+    .pipe(gulp.dest(path.join(buildConfig.DIR_DEST, 'assets')));
 }
 gulp.task('copy-css', gulpCopyCss);
 gulp.task('copy-markup', gulpCopyMarkup);
@@ -150,7 +149,7 @@ function gulpCssMin() {
     return gulp.src(path.join(buildConfig.DIR_TMP, 'assets/**/*.css'))
                .pipe(cssmin())
                .pipe(rename({suffix: '.min'}))
-               .pipe(gulp.dest(path.join(buildConfig.DIR_DEST, 'assets/css')));
+               .pipe(gulp.dest(path.join(buildConfig.DIR_DEST, 'assets')));
 }
 gulp.task('cssmin', gulpCssMin);
 
@@ -183,9 +182,9 @@ gulp.task('jshint', gulpJsHint);
  * Tasks that adds a header to generated css files.
  */
 function gulpHeaderCss() {
-    return gulp.src(path.join(buildConfig.DIR_DEST, 'assets/css/**/*.css'))
-               .pipe(header('/*\n' + buildConfig.FILE_BANNER + ' */\n', {pkg: pkg}))
-               .pipe(gulp.dest(buildConfig.DIR_DEST));
+    return gulp.src(path.join(buildConfig.DIR_DEST, 'assets/**/*.css'))
+               .pipe(header('/*\n' + buildConfig.FILE_BANNER + ' */\n', {pkg: pkg, buildDate: buildDate})) // jshint ignore:line
+               .pipe(gulp.dest(path.join(buildConfig.DIR_DEST, 'assets')));
 }
 gulp.task('header-css', gulpHeaderCss);
 
@@ -194,7 +193,7 @@ gulp.task('header-css', gulpHeaderCss);
  */
 function gulpHeaderMarkup() {
     return gulp.src(path.join(buildConfig.DIR_DEST, '**/*.html'))
-               .pipe(header('<!--\n ' + buildConfig.FILE_BANNER + '\n -->\n', {pkg: pkg}))
+               .pipe(header('<!--\n ' + buildConfig.FILE_BANNER + '\n -->\n', {pkg: pkg, buildDate: buildDate})) // jshint ignore:line
                .pipe(gulp.dest(buildConfig.DIR_DEST));
 }
 gulp.task('header-markup', gulpHeaderMarkup);
@@ -203,16 +202,16 @@ gulp.task('header-markup', gulpHeaderMarkup);
  * Tasks that adds a header to generated css files.
  */
 function gulpHeaderScripts() {
-    return gulp.src(path.join(buildConfig.DIR_DEST, 'assets/scripts/**/*.js'))
-               .pipe(header('/*\n' + buildConfig.FILE_BANNER + ' */\n', {pkg: pkg}))
-               .pipe(gulp.dest(buildConfig.DIR_DEST));
+    return gulp.src(path.join(buildConfig.DIR_DEST, 'assets/**/*.js'))
+               .pipe(header('/*\n' + buildConfig.FILE_BANNER + ' */\n', {pkg: pkg, buildDate: buildDate})) // jshint ignore:line
+               .pipe(gulp.dest(path.join(buildConfig.DIR_DEST, 'assets')));
 }
 gulp.task('header-scripts', gulpHeaderScripts);
 
 // ---- //
 
 /**
- * This task allows us to run grunt watch and have our files
+ * This task allows us to run gulp watch and have our files
  * compiled upon changes.
  */
 function gulpWatch() {
@@ -227,7 +226,7 @@ gulp.task('watch', gulpWatch);
 // ---- //
 
 /**
- * Notify messages when in the grunt watch mode so that we can
+ * Notify messages when in the gulp watch mode so that we can
  * know when the build process has been executed.
  */
 function gulpNotifyAll() {
@@ -274,15 +273,42 @@ if (production) {
 /**
  * Custom tasks.
  */
-gulp.task('build', ['clean-dest', 'media', 'markup', 'css', 'scripts', 'clean-tmp']);
+gulp.task('build', function(cb) {
+    runSequence('clean-dest',
+                'media',
+                'markup',
+                'css',
+                'scripts',
+                'clean-tmp', cb);
+});
+gulp.task('clean', ['clean-dest', 'clean-tmp']);
 gulp.task('lint', ['csslint', 'jshint']);
 gulp.task('media', ['copy-media']);
 gulp.task('markup', ['copy-markup']);
 
 if (production) {
-    gulp.task('css', ['sass', 'cssmin', 'header-css']);
-    gulp.task('scripts', ['copy-scripts', 'requirejs', 'header-scripts']);
+    gulp.task('css', function(cb) {
+        runSequence('sass',
+                    'csslint',
+                    'cssmin',
+                    'header-css', cb);
+    });
+
+    gulp.task('scripts', function(cb) {
+        runSequence('jshint',
+                    'copy-scripts',
+                    'requirejs',
+                    'header-scripts', cb);
+    });
 } else {
-    gulp.task('css', ['sass', 'cssmin', 'header-css']);
-    gulp.task('scripts', ['copy-scripts', 'header-scripts']);
+    gulp.task('css', function(cb) {
+        runSequence('sass',
+                    'copy-css',
+                    'header-css', cb);
+    });
+
+    gulp.task('scripts', function(cb) {
+        runSequence('copy-scripts',
+                    'header-scripts', cb);
+    });
 }

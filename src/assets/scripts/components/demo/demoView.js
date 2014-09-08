@@ -92,7 +92,7 @@ define(function(require, exports, module) { // jshint ignore:line
      * @private
      */
     proto.setupLayout = function() {
-        this.$element.html('The demo application has been initialized');
+        this.$element.html('The demo application has been initialized!');
 
         return this;
     };
