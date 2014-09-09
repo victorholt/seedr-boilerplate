@@ -47,6 +47,8 @@ not be modified in the `/public/` directory and the server should point to the
     + Performs a development build
 - `gulp -b production build`
     + Performs a production build
+- `gulp watch`
+    + Watches for file changes
 - `gulp clean`
     + Removes all generated files and directives
 - `gulp clean-dest`
