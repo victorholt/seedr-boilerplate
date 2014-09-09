@@ -15,6 +15,7 @@ var csslint = require('gulp-csslint');
 var jshint = require('gulp-jshint');
 var header = require('gulp-header');
 var notify = require('gulp-notify');
+var gutil = require('gulp-util');
 var runSequence = require('run-sequence');
 
 ///////////////////////////////////////////////////////////////////////////
@@ -24,6 +25,23 @@ var pkg = require('./package.json');
 var buildConfig = require('./build-config');
 var buildDate = new Date().toISOString();
 var production = 0;
+
+// Check if we are doing a production build.
+if (gutil.env.b != null && gutil.env.b === 'production') {
+    production = 1;
+}
+
+/**
+ * Logs to the console that the build is finished.
+ */
+function gulpLogComplete() {
+    // Let us know that we've finished building.
+    if (gutil.env.b != null && gutil.env.b === 'production') {
+        gutil.log('Finished', gutil.colors.green('production'), 'build');
+    } else {
+        gutil.log('Finished', gutil.colors.red('development'), 'build');
+    }
+}
 
 ///////////////////////////////////////////////////////////////////////////
 // Gulp tasks.
@@ -89,10 +107,21 @@ function gulpCopyScripts(cb) {
     )
     .pipe(gulp.dest(path.join(buildConfig.DIR_DEST, 'assets')));
 }
+
+function gulpCopyTmpScripts(cb) {
+    return gulp.src(
+        [
+            path.join(buildConfig.DIR_SRC, 'assets/**/*.js')
+        ]
+    )
+    .pipe(gulp.dest(path.join(buildConfig.DIR_TMP, 'assets')));
+}
+
 gulp.task('copy-css', gulpCopyCss);
 gulp.task('copy-markup', gulpCopyMarkup);
 gulp.task('copy-media', gulpCopyMedia);
 gulp.task('copy-scripts', gulpCopyScripts);
+gulp.task('copy-tmp-scripts', gulpCopyTmpScripts);
 
 // ---- //
 
@@ -102,29 +131,28 @@ gulp.task('copy-scripts', gulpCopyScripts);
  */
 function gulpRequireJS() {
     return rjs({
-        options: {
-            baseUrl: path.join(buildConfig.DIR_SRC, 'assets/scripts'),
-            useStrict: true,
-            optimize: 'uglify2',
-            //optimize: 'none',
-            uglify2: {
-                output: {
-                    beautify: false,
-                    comments: false
-                },
-                compress: {
-                    sequences: false
-                },
-                warnings: false,
-                mangle: true
-            }
+        baseUrl: path.join(buildConfig.DIR_TMP, 'assets/scripts'),
+        useStrict: true,
+        optimize: 'uglify2',
+        //optimize: 'none',
+        uglify2: {
+            output: {
+                beautify: false,
+                comments: false
+            },
+            compress: {
+                sequences: false
+            },
+            warnings: false,
+            mangle: true
         },
-        main: {
-            mainConfigFile: path.join(buildConfig.DIR_SRC, 'assets/scripts/config.js'),
-            name: 'main',
-            out: path.join(buildConfig.DIR_DEST, 'assets/scripts/main.min.js')
-        }
-    });
+
+        mainConfigFile: path.join(buildConfig.DIR_TMP, 'assets/scripts/config.js'),
+        name: 'main',
+        out: path.join(buildConfig.DIR_DEST, 'assets/scripts/main.min.js')
+    })
+    //.pipe(gulp.dest(path.join(buildConfig.DIR_DEST, 'assets') + '/'));
+    .pipe(gulp.dest('./'));
 }
 gulp.task('requirejs', gulpRequireJS);
 
@@ -279,7 +307,8 @@ gulp.task('build', function(cb) {
                 'markup',
                 'css',
                 'scripts',
-                'clean-tmp', cb);
+                'clean-tmp',
+                'finished-log', cb);
 });
 gulp.task('clean', ['clean-dest', 'clean-tmp']);
 gulp.task('lint', ['csslint', 'jshint']);
@@ -296,7 +325,7 @@ if (production) {
 
     gulp.task('scripts', function(cb) {
         runSequence('jshint',
-                    'copy-scripts',
+                    'copy-tmp-scripts',
                     'requirejs',
                     'header-scripts', cb);
     });
@@ -312,3 +341,7 @@ if (production) {
                     'header-scripts', cb);
     });
 }
+
+gulp.task('finished-log', function() {
+    gulpLogComplete();
+});
