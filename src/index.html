@@ -10,7 +10,7 @@
         <title>The Seedr Boilerplate</title>
 
         <!-- Stylesheets -->
-        <link rel="stylesheet" media="screen, projection" href="assets/css/main.min.css" />
+        <link rel="stylesheet" media="screen, projection" href="assets/css/main<%= _gulpCssSuffix %>" />
         <!--[if IE 9]><link rel="stylesheet" media="screen, projection" href="assets/css/ie9-fixes.min.css" /><![endif]-->
         <!-- End Stylesheets -->
     </head>
@@ -23,6 +23,7 @@
         <!-- Application Settings -->
         <script src="assets/vendors/requirejs/require.js"></script>
         <script src="assets/scripts/config.js"></script>
+        <%= _gulpCompiledJSMainFile %>
         <script>
             /**
              * The CONFIG global class is the base class that contains all

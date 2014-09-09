@@ -16,6 +16,7 @@ var jshint = require('gulp-jshint');
 var header = require('gulp-header');
 var notify = require('gulp-notify');
 var gutil = require('gulp-util');
+var template = require('gulp-template');
 var runSequence = require('run-sequence');
 
 ///////////////////////////////////////////////////////////////////////////
@@ -26,9 +27,19 @@ var buildConfig = require('./build-config');
 var buildDate = new Date().toISOString();
 var production = 0;
 
+// Template variables that change based on our build type.
+var templateVars = {
+    _gulpCssSuffix: '.css',
+    _gulpJsSuffix: '.js',
+    _gulpCompiledJSMainFile: ''
+};
+
 // Check if we are doing a production build.
 if (gutil.env.b != null && gutil.env.b === 'production') {
     production = 1;
+    templateVars._gulpCcssSuffix = '.min.css';
+    templateVars._gulpJsSuffix = '.min.js';
+    templateVars._gulpCompiledJSMainFile = '<script src="assets/scripts/main.min.js"></script>';
 }
 
 /**
@@ -89,6 +100,7 @@ function gulpCopyMarkup(cb) {
             '!' + path.join(buildConfig.DIR_SRC, 'assets/vendors/**')
         ]
     )
+    .pipe(template(templateVars))
     .pipe(gulp.dest(buildConfig.DIR_DEST));
 }
 

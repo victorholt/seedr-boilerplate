@@ -19,6 +19,7 @@
     "gulp-rename": "^1.2.0",
     "gulp-requirejs": "^0.1.3",
     "gulp-sass": "^0.7.3",
+    "gulp-template": "^1.0.1",
     "gulp-uglify": "^0.3.2",
     "gulp-util": "^3.0.1",
     "run-sequence": "^0.3.6"
