@@ -37,7 +37,7 @@ var templateVars = {
 // Check if we are doing a production build.
 if (gutil.env.b != null && gutil.env.b === 'production') {
     production = 1;
-    templateVars._gulpCcssSuffix = '.min.css';
+    templateVars._gulpCssSuffix = '.min.css';
     templateVars._gulpJsSuffix = '.min.js';
     templateVars._gulpCompiledJSMainFile = '<script src="assets/scripts/main.min.js"></script>';
 }
