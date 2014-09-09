@@ -37,10 +37,12 @@ if (gutil.env.b != null && gutil.env.b === 'production') {
 function gulpLogComplete() {
     // Let us know that we've finished building.
     if (gutil.env.b != null && gutil.env.b === 'production') {
-        gutil.log('Finished', gutil.colors.green('production'), 'build');
+        gutil.log(gutil.colors.green('Finished Running All Production Tasks'));
     } else {
-        gutil.log('Finished', gutil.colors.red('development'), 'build');
+        gutil.log(gutil.colors.blue('Finished Running All Development Tasks'));
     }
+
+    return;
 }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -108,7 +110,7 @@ function gulpCopyScripts(cb) {
     .pipe(gulp.dest(path.join(buildConfig.DIR_DEST, 'assets')));
 }
 
-function gulpCopyTmpScripts(cb) {
+function gulpCopyPreScripts(cb) {
     return gulp.src(
         [
             path.join(buildConfig.DIR_SRC, 'assets/**/*.js')
@@ -117,11 +119,31 @@ function gulpCopyTmpScripts(cb) {
     .pipe(gulp.dest(path.join(buildConfig.DIR_TMP, 'assets')));
 }
 
+function gulpCopyPostScripts(cb) {
+    gulp.src(
+        [
+            path.join(buildConfig.DIR_TMP, 'assets/scripts/config.js')
+        ]
+    )
+    .pipe(gulp.dest(path.join(buildConfig.DIR_DEST, 'assets/scripts')));
+
+    return gulp.src(
+        [
+            path.join(buildConfig.DIR_TMP, 'assets/vendors/requirejs/require.js')
+        ]
+    )
+    .pipe(gulp.dest(path.join(buildConfig.DIR_DEST, 'assets/vendors/requirejs')));
+
+    //.src(path.join(buildConfig.DIR_TMP, 'assets/vendors/requirejs/require.js'))
+    //.pipe(gulp.dest(path.join(buildConfig.DIR_TMP, 'assets/vendors/requirejs')));
+}
+
 gulp.task('copy-css', gulpCopyCss);
 gulp.task('copy-markup', gulpCopyMarkup);
 gulp.task('copy-media', gulpCopyMedia);
 gulp.task('copy-scripts', gulpCopyScripts);
-gulp.task('copy-tmp-scripts', gulpCopyTmpScripts);
+gulp.task('copy-pre-scripts', gulpCopyPreScripts);
+gulp.task('copy-post-scripts', gulpCopyPostScripts);
 
 // ---- //
 
@@ -130,7 +152,7 @@ gulp.task('copy-tmp-scripts', gulpCopyTmpScripts);
  * the application javascript files.
  */
 function gulpRequireJS() {
-    return rjs({
+    rjs({
         baseUrl: path.join(buildConfig.DIR_TMP, 'assets/scripts'),
         useStrict: true,
         optimize: 'uglify2',
@@ -151,7 +173,6 @@ function gulpRequireJS() {
         name: 'main',
         out: path.join(buildConfig.DIR_DEST, 'assets/scripts/main.min.js')
     })
-    //.pipe(gulp.dest(path.join(buildConfig.DIR_DEST, 'assets') + '/'));
     .pipe(gulp.dest('./'));
 }
 gulp.task('requirejs', gulpRequireJS);
@@ -325,8 +346,9 @@ if (production) {
 
     gulp.task('scripts', function(cb) {
         runSequence('jshint',
-                    'copy-tmp-scripts',
+                    'copy-pre-scripts',
                     'requirejs',
+                    'copy-post-scripts',
                     'header-scripts', cb);
     });
 } else {
@@ -343,5 +365,5 @@ if (production) {
 }
 
 gulp.task('finished-log', function() {
-    gulpLogComplete();
+    return gulpLogComplete();
 });

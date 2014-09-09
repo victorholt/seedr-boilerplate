@@ -41,3 +41,15 @@ bare bones and can be implemented to use **ReactJS**, **BackboneJS**, or
 All files, once compiled, are generated in the `/public/` folder. Files should
 not be modified in the `/public/` directory and the server should point to the
 `/public/` directory as the starting point.
+
+###Helpful Build Commands
+- `gulp build`
+    + Performs a development build
+- `gulp -b production build`
+    + Performs a production build
+- `gulp clean`
+    + Removes all generated files and directives
+- `gulp clean-dest`
+    + Removes the generated destination directory
+- `gulp clean-tmp`
+    + Removes the generated temporary directory
