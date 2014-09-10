@@ -34,11 +34,10 @@ The demo code can be found in the **demoView.js** file located at
 `/src/assets/scripts/components/demo/demoView.js`.
 
 The **app.js** file bootstraps the **DemoView** component class. This is very
-bare bones and can be implemented to use **ReactJS**, **BackboneJS**, or
-**AngularJS**.
+bare bones and can be implemented to use **AngularJS**, **ReactJS**, or **BackboneJS**.
 
 ##Compiling and Running Notes
-All files, once compiled, are generated in the `/public/` folder. Files should
+All files, once compiled, are generated in a `/public/` directory. Files should
 not be modified in the `/public/` directory and the server should point to the
 `/public/` directory as the starting point.
 
