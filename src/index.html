@@ -10,8 +10,8 @@
         <title>The Seedr Boilerplate</title>
 
         <!-- Stylesheets -->
-        <link rel="stylesheet" media="screen, projection" href="assets/css/main<%= _gulpCssSuffix %>" />
-        <!--[if IE 9]><link rel="stylesheet" media="screen, projection" href="assets/css/ie9-fixes.min.css" /><![endif]-->
+        <link rel="stylesheet" media="screen, projection" href="<%= _gulpAssetsDir %>/css/main<%= _gulpCssSuffix %>" />
+        <!--[if IE 9]><link rel="stylesheet" media="screen, projection" href="<%= _gulpAssetsDir %>/css/ie9-fixes.min.css" /><![endif]-->
         <!-- End Stylesheets -->
     </head>
 
@@ -21,8 +21,8 @@
         <!-- End Application -->
 
         <!-- Application Settings -->
-        <script src="assets/vendors/requirejs/require.js"></script>
-        <script src="assets/scripts/config.js"></script>
+        <script src="<%= _gulpAssetsDir %>/vendors/requirejs/require.js"></script>
+        <script src="<%= _gulpAssetsDir %>/scripts/config.js"></script>
         <%= _gulpCompiledJSMainFile %>
         <script>
             /**
@@ -60,7 +60,7 @@
              * @type String
              * @final
              */
-            CONFIG.SCRIPT_PATH = 'assets/scripts/';
+            CONFIG.SCRIPT_PATH = '<%= _gulpAssetsDir %>/scripts/';
 
             /**
              * The RequireJS configuration. These configurations are in

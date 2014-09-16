@@ -27,6 +27,7 @@ var buildEnv = {
         _gulpJsSuffix: '.js',
         _gulpCompiledJSMainFile: '',
         _gulpProjectVersion: pkg.version,
+        _gulpAssetsDir: buildConfig.DIR_ASSETS,
         _gulpIsProduction: false
     }
 };
