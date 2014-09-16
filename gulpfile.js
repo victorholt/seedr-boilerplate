@@ -13,6 +13,7 @@ var runSequence = require('run-sequence');
 ///////////////////////////////////////////////////////////////////////////
 var GulpTask = null;    // Class object for the task.
 var taskObj = null;     // Task object reused for initialzing tasks.
+var pkg = require('./package.json');
 
 // Build environment variables shared by all tasks.
 var buildEnv = {
@@ -24,7 +25,9 @@ var buildEnv = {
     template: {
         _gulpCssSuffix: '.css',
         _gulpJsSuffix: '.js',
-        _gulpCompiledJSMainFile: ''
+        _gulpCompiledJSMainFile: '',
+        _gulpProjectVersion: pkg.version,
+        _gulpIsProduction: false
     }
 };
 
@@ -36,6 +39,7 @@ if (gutil.env.b != null && gutil.env.b === 'production') {
     buildEnv.template._gulpCssSuffix = '.min.css';
     buildEnv.template._gulpJsSuffix = '.min.js';
     buildEnv.template._gulpCompiledJSMainFile = '<script src="assets/scripts/main.min.js"></script>';
+    buildEnv.template._gulpIsProduction = true;
 }
 
 ///////////////////////////////////////////////////////////////////////////
