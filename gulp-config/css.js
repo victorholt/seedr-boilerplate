@@ -1,6 +1,12 @@
 /* jshint node:true, laxbreak: true */
 'use strict';
 
+// Includes tasks for Sass and Css minifying.
+// The Sass task compiles the sass files and
+// moves them to the temporary directory. From
+// there the css can be linted and then minified.
+// @task: /gulp-config/css.js
+
 ///////////////////////////////////////////////////////////////////////////
 // Required modules.
 ///////////////////////////////////////////////////////////////////////////

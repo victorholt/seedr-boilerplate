@@ -7,12 +7,11 @@
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 var runSequence = require('run-sequence');
+var TaskConfigSetup = require('./gulp-config/taskConfigSetup');
 
 ///////////////////////////////////////////////////////////////////////////
 // Global build variables.
 ///////////////////////////////////////////////////////////////////////////
-var GulpTask = null;    // Class object for the task.
-var taskObj = null;     // Task object reused for initialzing tasks.
 var pkg = require('./package.json');
 
 // Build environment variables shared by all tasks.
@@ -46,64 +45,26 @@ if (gutil.env.b != null && gutil.env.b === 'production') {
 // Gulp tasks.
 ///////////////////////////////////////////////////////////////////////////
 
-// Sets up tasks to clean up temporary and build folders.
-// @task: /gulp-config/clean.js
-GulpTask = new require('./gulp-config/clean');
-taskObj = new GulpTask(gulp, buildEnv);
+// The names of the config files for our tasks.
+// No specific ordering necessary.
+var taskConfigSetup = null;
+var tasks = [
+    'clean',
+    'copy',
+    'css',
+    'header',
+    'lint',
+    'require',
+    'notify',
+    'watch'
+];
 
-// ---- //
-
-// Sets up tasks to copy files from one directory to
-// another (either from the source to temporary directory
-// or temporary to the build directory).
-// @task: /gulp-config/copy.js
-GulpTask = new require('./gulp-config/copy');
-taskObj = new GulpTask(gulp, buildEnv);
-
-// ---- //
-
-// Sets up the task for requirejs.
-// @task: /gulp-config/require.js
-GulpTask = new require('./gulp-config/require.js');
-taskObj = new GulpTask(gulp, buildEnv);
-
-// ---- //
-
-// Includes tasks for Sass and Css minifying.
-// The Sass task compiles the sass files and
-// moves them to the temporary directory. From
-// there the css can be linted and then minified.
-// @task: /gulp-config/css.js
-GulpTask = new require('./gulp-config/css.js');
-taskObj = new GulpTask(gulp, buildEnv);
-
-// ---- //
-
-// Sets up the tasks that lints css and js files.
-// @task: /gulp-config/lint.js
-GulpTask = new require('./gulp-config/lint.js');
-taskObj = new GulpTask(gulp, buildEnv);
-
-// ---- //
-
-// Sets up the tasks that adds a header in the generated files.
-// @task: /gulp-config/header.js
-GulpTask = new require('./gulp-config/header.js');
-taskObj = new GulpTask(gulp, buildEnv);
-
-// ---- //
-
-// Sets up the tasks to watch files.
-// @task: /gulp-config/watch.js
-GulpTask = new require('./gulp-config/watch.js');
-taskObj = new GulpTask(gulp, buildEnv);
-
-// ---- //
-
-// Sets up the notify tasks.
-// @task: /gulp-config/notify.js
-GulpTask = new require('./gulp-config/notify.js');
-taskObj = new GulpTask(gulp, buildEnv);
+try {
+    taskConfigSetup = new TaskConfigSetup(__dirname, gulp, buildEnv, tasks);
+} catch(error) {
+    console.log(error);
+    process.exit(1);
+}
 
 // ---- //
 

@@ -1,6 +1,11 @@
 /* jshint node:true, laxbreak: true */
 'use strict';
 
+// Sets up tasks to copy files from one directory to
+// another (either from the source to temporary directory
+// or temporary to the build directory).
+// @task: /gulp-config/copy.js
+
 ///////////////////////////////////////////////////////////////////////////
 // Required modules.
 ///////////////////////////////////////////////////////////////////////////
