@@ -75,10 +75,10 @@ proto.init = function() {
 proto.copyCss = function() {
     return this.gulp.src(
         [
-            path.join(buildConfig.DIR_TMP, 'assets/**/*.css')
+            path.join(buildConfig.DIR_TMP, buildConfig.DIR_ASSETS + '/**/*.css')
         ]
     )
-    .pipe(this.gulp.dest(path.join(buildConfig.DIR_DEST, 'assets')));
+    .pipe(this.gulp.dest(path.join(buildConfig.DIR_DEST, buildConfig.DIR_ASSETS)));
 };
 
 /**
@@ -92,7 +92,7 @@ proto.copyMarkup = function() {
     return this.gulp.src(
         [
             path.join(buildConfig.DIR_SRC, '**/*.html'),
-            '!' + path.join(buildConfig.DIR_SRC, 'assets/vendors/**')
+            '!' + path.join(buildConfig.DIR_SRC, buildConfig.DIR_ASSETS + '/vendors/**')
         ]
     )
     .pipe(template(this.buildEnv.template))
@@ -109,10 +109,10 @@ proto.copyMarkup = function() {
 proto.copyMedia = function() {
     return this.gulp.src(
         [
-            path.join(buildConfig.DIR_SRC, 'assets/media/**')
+            path.join(buildConfig.DIR_SRC, buildConfig.DIR_ASSETS + '/media/**')
         ]
     )
-    .pipe(this.gulp.dest(path.join(buildConfig.DIR_DEST, 'assets/media')));
+    .pipe(this.gulp.dest(path.join(buildConfig.DIR_DEST, buildConfig.DIR_ASSETS + '/media')));
 };
 
 /**
@@ -126,10 +126,10 @@ proto.copyMedia = function() {
 proto.copyScripts = function() {
     return this.gulp.src(
         [
-            path.join(buildConfig.DIR_SRC, 'assets/**/*.js')
+            path.join(buildConfig.DIR_SRC, buildConfig.DIR_ASSETS + '/**/*.js')
         ]
     )
-    .pipe(this.gulp.dest(path.join(buildConfig.DIR_DEST, 'assets')));
+    .pipe(this.gulp.dest(path.join(buildConfig.DIR_DEST, buildConfig.DIR_ASSETS)));
 };
 
 /**
@@ -143,10 +143,10 @@ proto.copyScripts = function() {
 proto.copyPreScripts = function() {
     return this.gulp.src(
         [
-            path.join(buildConfig.DIR_SRC, 'assets/**/*.js')
+            path.join(buildConfig.DIR_SRC, buildConfig.DIR_ASSETS + '/**/*.js')
         ]
     )
-    .pipe(this.gulp.dest(path.join(buildConfig.DIR_TMP, 'assets')));
+    .pipe(this.gulp.dest(path.join(buildConfig.DIR_TMP, buildConfig.DIR_ASSETS)));
 };
 
 /**
@@ -160,17 +160,17 @@ proto.copyPreScripts = function() {
 proto.copyPostScripts = function() {
     this.gulp.src(
         [
-            path.join(buildConfig.DIR_TMP, 'assets/scripts/config.js')
+            path.join(buildConfig.DIR_TMP, buildConfig.DIR_ASSETS + '/scripts/config.js')
         ]
     )
-    .pipe(this.gulp.dest(path.join(buildConfig.DIR_DEST, 'assets/scripts')));
+    .pipe(this.gulp.dest(path.join(buildConfig.DIR_DEST, buildConfig.DIR_ASSETS + '/scripts')));
 
     return this.gulp.src(
         [
-            path.join(buildConfig.DIR_TMP, 'assets/vendors/requirejs/require.js')
+            path.join(buildConfig.DIR_TMP, buildConfig.DIR_ASSETS + '/vendors/requirejs/require.js')
         ]
     )
-    .pipe(this.gulp.dest(path.join(buildConfig.DIR_DEST, 'assets/vendors/requirejs')));
+    .pipe(this.gulp.dest(path.join(buildConfig.DIR_DEST, buildConfig.DIR_ASSETS + '/vendors/requirejs')));
 };
 
 

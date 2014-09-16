@@ -49,7 +49,16 @@ var BuildConfig = {
      * @property DIR_TMP
      * @type String
      */
-    DIR_TMP: './tmp'
+    DIR_TMP: './tmp',
+
+    /**
+     * The directory where the assets are stored in relation to the
+     * source <DIR_SRC> directory. No beginning or trailing slash!
+     *
+     * @property DIR_ASSETS
+     * @type String
+     */
+    DIR_ASSETS: 'assets'
 };
 
 module.exports = BuildConfig;

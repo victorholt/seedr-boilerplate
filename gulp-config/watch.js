@@ -67,10 +67,10 @@ proto.init = function() {
 proto.watch = function() {
     this.gulp.watch('gulpfile.js', ['build', 'notify-all']);
     this.gulp.watch('./gulp-config/*.js', ['build', 'notify-all']);
-    this.gulp.watch(path.join(buildConfig.DIR_SRC, 'assets/media/**'), ['media', 'clean-tmp', 'notify-media']);
-    this.gulp.watch(path.join(buildConfig.DIR_SRC, 'assets/{scss,vendors}/**/*.scss'), ['css', 'clean-tmp', 'notify-css']); // jshint ignore:line
-    this.gulp.watch(path.join(buildConfig.DIR_SRC, 'assets/{scripts, vendors}/**/*.js'), ['scripts', 'clean-tmp', 'notify-scripts']); // jshint ignore:line
-    this.gulp.watch(path.join(buildConfig.DIR_SRC, 'assets/**/*.html'), ['markup', 'clean-tmp', 'notify-markup']);
+    this.gulp.watch(path.join(buildConfig.DIR_SRC, buildConfig.DIR_ASSETS + '/media/**'), ['media', 'clean-tmp', 'notify-media']);
+    this.gulp.watch(path.join(buildConfig.DIR_SRC, buildConfig.DIR_ASSETS + '/{scss,vendors}/**/*.scss'), ['css', 'clean-tmp', 'notify-css']); // jshint ignore:line
+    this.gulp.watch(path.join(buildConfig.DIR_SRC, buildConfig.DIR_ASSETS + '/{scripts, vendors}/**/*.js'), ['scripts', 'clean-tmp', 'notify-scripts']); // jshint ignore:line
+    this.gulp.watch(path.join(buildConfig.DIR_SRC, buildConfig.DIR_ASSETS + '/**/*.html'), ['markup', 'clean-tmp', 'notify-markup']);
 };
 
 

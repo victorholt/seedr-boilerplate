@@ -71,9 +71,9 @@ proto.init = function() {
  * @returns {gulp}
  */
 proto.sass = function() {
-    return this.gulp.src(path.join(buildConfig.DIR_SRC, 'assets/scss/**/*.scss'))
+    return this.gulp.src(path.join(buildConfig.DIR_SRC, buildConfig.DIR_ASSETS + '/scss/**/*.scss'))
                .pipe(sass())
-               .pipe(this.gulp.dest(path.join(buildConfig.DIR_TMP, 'assets/css')));
+               .pipe(this.gulp.dest(path.join(buildConfig.DIR_TMP, buildConfig.DIR_ASSETS + '/css')));
 };
 
 // ---- //
@@ -85,10 +85,10 @@ proto.sass = function() {
  * @returns {gulp}
  */
 proto.cssMin = function() {
-    return this.gulp.src(path.join(buildConfig.DIR_TMP, 'assets/**/*.css'))
+    return this.gulp.src(path.join(buildConfig.DIR_TMP, buildConfig.DIR_ASSETS + '/**/*.css'))
                .pipe(cssmin())
                .pipe(rename({suffix: '.min'}))
-               .pipe(this.gulp.dest(path.join(buildConfig.DIR_DEST, 'assets')));
+               .pipe(this.gulp.dest(path.join(buildConfig.DIR_DEST, buildConfig.DIR_ASSETS)));
 };
 
 

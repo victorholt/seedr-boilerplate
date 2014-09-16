@@ -70,7 +70,7 @@ proto.requireJS = function() {
     var optimize = this.buildEnv.production ? 'uglify' : 'none';
 
     rjs({
-        baseUrl: path.join(buildConfig.DIR_TMP, 'assets/scripts'),
+        baseUrl: path.join(buildConfig.DIR_TMP, buildConfig.DIR_ASSETS + '/scripts'),
         useStrict: true,
         optimize: optimize,
         uglify2: {
@@ -85,9 +85,9 @@ proto.requireJS = function() {
             mangle: true
         },
 
-        mainConfigFile: path.join(buildConfig.DIR_TMP, 'assets/scripts/config.js'),
+        mainConfigFile: path.join(buildConfig.DIR_TMP, buildConfig.DIR_ASSETS + '/scripts/config.js'),
         name: 'main',
-        out: path.join(buildConfig.DIR_DEST, 'assets/scripts/main.min.js')
+        out: path.join(buildConfig.DIR_DEST, buildConfig.DIR_ASSETS + '/scripts/main.min.js')
     })
     .pipe(this.gulp.dest('./'));
 };

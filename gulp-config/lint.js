@@ -67,7 +67,7 @@ proto.init = function() {
  * @returns {gulp}
  */
 proto.cssLint = function() {
-    return this.gulp.src(path.join(buildConfig.DIR_TMP, 'assets/**/*.css'))
+    return this.gulp.src(path.join(buildConfig.DIR_TMP, buildConfig.DIR_ASSETS + '/**/*.css'))
                .pipe(csslint('.csslintrc'))
                .pipe(csslint.reporter());
 };

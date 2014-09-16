@@ -13,6 +13,7 @@ var TaskConfigSetup = require('./gulp-config/taskConfigSetup');
 // Global build variables.
 ///////////////////////////////////////////////////////////////////////////
 var pkg = require('./package.json');
+var buildConfig = require('./build-config');
 
 // Build environment variables shared by all tasks.
 var buildEnv = {
@@ -37,7 +38,7 @@ if (gutil.env.b != null && gutil.env.b === 'production') {
 
     buildEnv.template._gulpCssSuffix = '.min.css';
     buildEnv.template._gulpJsSuffix = '.min.js';
-    buildEnv.template._gulpCompiledJSMainFile = '<script src="assets/scripts/main.min.js"></script>';
+    buildEnv.template._gulpCompiledJSMainFile = '<script src="/' + buildConfig.DIR_ASSETS + '/scripts/main.min.js"></script>';
     buildEnv.template._gulpIsProduction = true;
 }
 

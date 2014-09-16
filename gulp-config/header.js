@@ -68,9 +68,9 @@ proto.init = function() {
  * @returns {gulp}
  */
 proto.headerCss = function() {
-    return this.gulp.src(path.join(buildConfig.DIR_DEST, 'assets/**/*.css'))
+    return this.gulp.src(path.join(buildConfig.DIR_DEST, buildConfig.DIR_ASSETS + '/**/*.css'))
                .pipe(header('/*\n' + buildConfig.FILE_BANNER + ' */\n', {pkg: pkg, buildDate: this.buildEnv.buildDate})) // jshint ignore:line
-               .pipe(this.gulp.dest(path.join(buildConfig.DIR_DEST, 'assets')));
+               .pipe(this.gulp.dest(path.join(buildConfig.DIR_DEST, buildConfig.DIR_ASSETS)));
 };
 
 /**
@@ -92,9 +92,9 @@ proto.headerMarkup = function() {
  * @returns {gulp}
  */
 proto.headerScripts = function() {
-    return this.gulp.src(path.join(buildConfig.DIR_DEST, 'assets/**/*.js'))
+    return this.gulp.src(path.join(buildConfig.DIR_DEST, buildConfig.DIR_ASSETS + '/**/*.js'))
                .pipe(header('/*\n' + buildConfig.FILE_BANNER + ' */\n', {pkg: pkg, buildDate: this.buildEnv.buildDate})) // jshint ignore:line
-               .pipe(this.gulp.dest(path.join(buildConfig.DIR_DEST, 'assets')));
+               .pipe(this.gulp.dest(path.join(buildConfig.DIR_DEST, buildConfig.DIR_ASSETS)));
 };
 
 
