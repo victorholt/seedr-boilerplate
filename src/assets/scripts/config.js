@@ -8,6 +8,8 @@
 require.config({
     paths: {
         'requirejs': './../vendors/requirejs/require',
+        'text': './../vendors/requirejs-text/text',
+        'bind-polyfill': './../vendors/bind-polyfill/bind.polyfill',
         'jquery': './../vendors/jquery/dist/jquery.min'
     },
 

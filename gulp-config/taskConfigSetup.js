@@ -17,6 +17,8 @@ var fs = require('fs');
  *
  * @class TaskConfigSetup
  * @param {String} baseDir
+ * @param {gulp} gulp
+ * @param {buildEnv} buildEnv
  * @param {Array<String>} tasks
  * @constructor
  */

@@ -1,6 +1,8 @@
 define(function(require, exports, module) { // jshint ignore:line
     'use strict';
 
+    require('bind-polyfill');
+
     var $ = require('jquery');
     var DemoView = require('./components/demo/demoView');
 

@@ -126,7 +126,9 @@ proto.copyMedia = function() {
 proto.copyScripts = function() {
     return this.gulp.src(
         [
-            path.join(buildConfig.DIR_SRC, buildConfig.DIR_ASSETS + '/**/*.js')
+            path.join(buildConfig.DIR_SRC, buildConfig.DIR_ASSETS + '/**/*.js'),
+            '!' + path.join(buildConfig.DIR_SRC, buildConfig.DIR_ASSETS + '/**/*.spec.js'),
+            '!' + path.join(buildConfig.DIR_SRC, buildConfig.DIR_ASSETS + '/**/test-main.js')
         ]
     )
     .pipe(this.gulp.dest(path.join(buildConfig.DIR_DEST, buildConfig.DIR_ASSETS)));
@@ -143,7 +145,9 @@ proto.copyScripts = function() {
 proto.copyPreScripts = function() {
     return this.gulp.src(
         [
-            path.join(buildConfig.DIR_SRC, buildConfig.DIR_ASSETS + '/**/*.js')
+            path.join(buildConfig.DIR_SRC, buildConfig.DIR_ASSETS + '/**/*.js'),
+            '!' + path.join(buildConfig.DIR_SRC, buildConfig.DIR_ASSETS + '/**/*.spec.js'),
+            '!' + path.join(buildConfig.DIR_SRC, buildConfig.DIR_ASSETS + '/**/test-main.js')
         ]
     )
     .pipe(this.gulp.dest(path.join(buildConfig.DIR_TMP, buildConfig.DIR_ASSETS)));

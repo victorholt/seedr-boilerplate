@@ -1,24 +1,24 @@
 define(function(require, exports, module) { // jshint ignore:line
     'use strict';
 
-    var demoTemplate = require('text!./demoTemplate.html');
-    var SearchView = require('./../search/searchView');
+    var $ = require('jquery');
+    var searchTemplate = require('text!./searchTemplate.html');
 
     /**
-     * The Demo view class.
+     * The Search view class.
      *
-     * @class DemoView
-     * @param {jQuery<HTMLObject>} $element
+     * @class SearchView
      * @constructor
      */
-    var DemoView = function($element) {
+    var SearchView = function() {
         /**
          * The DOM element the component is attached too.
          *
+         * @default null
          * @property $element
          * @type jQuery<HTMLObject>
          */
-        this.$element = $element;
+        this.$element = null;
 
         /**
          * Flag that checks whether or not this component
@@ -32,7 +32,7 @@ define(function(require, exports, module) { // jshint ignore:line
         this.init();
     };
 
-    var proto = DemoView.prototype;
+    var proto = SearchView.prototype;
 
     /**
      * Initializes all the view. This method should setup all
@@ -41,13 +41,12 @@ define(function(require, exports, module) { // jshint ignore:line
      * component.
      *
      * @method init
-     * @returns {DemoView}
+     * @returns {SearchView}
      * @private
      */
     proto.init = function() {
         this.setupEventHandlers()
             .setupChildren()
-            .setupLayout()
             .enable();
 
         return this;
@@ -57,7 +56,7 @@ define(function(require, exports, module) { // jshint ignore:line
      * Links up the handlers to their events.
      *
      * @method setupEventHandlers
-     * @returns {DemoView}
+     * @returns {SearchView}
      * @private
      */
     proto.setupEventHandlers = function() {
@@ -69,12 +68,10 @@ define(function(require, exports, module) { // jshint ignore:line
      * of the component.
      *
      * @method setupChildren
-     * @returns {DemoView}
+     * @returns {SearchView}
      * @private
      */
     proto.setupChildren = function() {
-        this.searchView = new SearchView();
-
         return this;
     };
 
@@ -82,27 +79,26 @@ define(function(require, exports, module) { // jshint ignore:line
      * Removes the children objects of the component.
      *
      * @method removeChildren
-     * @returns {DemoView}
+     * @returns {SearchView}
      * @private
      */
     proto.removeChildren = function() {
-        this.searchView.destroy();
-        this.searchView = null;
-
         return this;
     };
 
     /**
-     * Handles any manipulate of the component element.
+     * Handles updating the DOM elements.
      *
-     * @method setupLayout
-     * @returns {DemoView}
-     * @private
+     * @method layout
+     * @returns {SearchView}
+     * @public
      */
-    proto.setupLayout = function() {
-        this.$element.html(demoTemplate);
-        this.searchView.layout();
+    proto.layout = function() {
+        if (this.$element == null) {
+            this.$element = $('.searchView');
+        }
 
+        this.$element.html(searchTemplate);
         return this;
     };
 
@@ -110,12 +106,10 @@ define(function(require, exports, module) { // jshint ignore:line
      * Enables the component and all of the events.
      *
      * @method enable
-     * @returns {DemoView}
+     * @returns {SearchView}
      * @private
      */
     proto.enable = function() {
-        this.searchView.enable();
-
         return this;
     };
 
@@ -124,12 +118,10 @@ define(function(require, exports, module) { // jshint ignore:line
      * with the component.
      *
      * @method disable
-     * @returns {DemoView}
+     * @returns {SearchView}
      * @private
      */
     proto.disable = function() {
-        this.searchView.disable();
-
         return this;
     };
 
@@ -138,7 +130,7 @@ define(function(require, exports, module) { // jshint ignore:line
      * by the component.
      *
      * @method destroy
-     * @returns {DemoView}
+     * @returns {SearchView}
      * @private
      */
     proto.destroy = function() {
@@ -153,5 +145,5 @@ define(function(require, exports, module) { // jshint ignore:line
     // HELPERS
     ///////////////////////////////////////////////////////////////////////////
 
-    return DemoView;
+    return SearchView;
 });

@@ -58,6 +58,7 @@ var tasks = [
     'lint',
     'require',
     'notify',
+    'test',
     'watch'
 ];
 

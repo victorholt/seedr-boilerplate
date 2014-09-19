@@ -8,6 +8,16 @@ Seedr is a web application boilerplate for a new web project.
 - NodeJS
 - GulpJS
 - Bower
+- Jasmine `if you wish to do unit testing`
+- PhantomJS `if you wish to do unit testing`
+
+##Prereq Installation
+As listed above in the requirements, GulpJS, Bower, Jasmine, and PhantomJS
+are requirements if you want to get the most of the framework.
+
+###Unit Testing
+- Install Jasmine `npm install -g jasmine`
+- Install PhantomJS
 
 ##Installation
 
@@ -48,9 +58,18 @@ not be modified in the `/public/` directory and the server should point to the
     + Performs a production build
 - `gulp watch`
     + Watches for file changes
+- `gulp test`
+    + Starts up the Karma framework to run through the tests
 - `gulp clean`
     + Removes all generated files and directives
 - `gulp clean-dest`
     + Removes the generated destination directory
 - `gulp clean-tmp`
     + Removes the generated temporary directory
+
+##Other Notes
+###Running Karma
+If you wish to run unit tests outside of gulp you can do the following
+
+- Install Karma CLI `npm install -g karma-cli`
+- Run `karma start karma.config.js`
