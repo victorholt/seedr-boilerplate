@@ -116,6 +116,8 @@ define(function(require, exports, module) { // jshint ignore:line
      * @private
      */
     proto.removeChildren = function() {
+        this.filterService = null;
+
         return this;
     };
 
