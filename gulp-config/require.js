@@ -8,6 +8,7 @@
 // Required modules.
 ///////////////////////////////////////////////////////////////////////////
 var rjs = require('gulp-requirejs');
+var uglify = require('gulp-uglify');
 var path = require('path');
 var buildConfig = require('./../build-config');
 
@@ -88,8 +89,12 @@ proto.requireJS = function() {
 
         mainConfigFile: path.join(buildConfig.DIR_TMP, buildConfig.DIR_ASSETS + '/scripts/config.js'),
         name: 'main',
-        out: path.join(buildConfig.DIR_TMP, buildConfig.DIR_ASSETS + '/scripts/main.min.js')
+        out: path.join(buildConfig.DIR_DEST, buildConfig.DIR_ASSETS + '/scripts/main.min.js')
     })
+    // TODO: Can't seem to get RequireJS to optimize properly...
+    .pipe(uglify({
+        outSourceMap: true
+    }))
     .pipe(this.gulp.dest('./'));
 };
 
