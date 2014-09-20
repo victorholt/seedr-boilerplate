@@ -114,8 +114,13 @@ define(function(require, exports, module) { // jshint ignore:line
      * @private
      */
     proto.enable = function() {
+        if (this.isEnabled) {
+            return this;
+        }
+
         this.searchView.enable();
 
+        this.isEnabled = true;
         return this;
     };
 
@@ -128,8 +133,13 @@ define(function(require, exports, module) { // jshint ignore:line
      * @private
      */
     proto.disable = function() {
+        if (!this.isEnabled) {
+            return this;
+        }
+
         this.searchView.disable();
 
+        this.isEnabled = false;
         return this;
     };
 

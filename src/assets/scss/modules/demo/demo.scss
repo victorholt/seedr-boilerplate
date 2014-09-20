@@ -1,12 +1,47 @@
 /**
  * General styles for the Demo Application.
- *
- * @author Victor Holt
  */
 
-@import url(http://fonts.googleapis.com/css?family=Open+Sans);
-
-.demo {
+.demoContainer {
     font-family: 'Open Sans', sans-serif;
-    margin: 1em;
+    font-size: 1em;
+
+    border: 1px solid #DFDFDF;
+    box-shadow: 1px 1px 2px #888;
+
+    position: relative;
+    padding: 20px;
+    margin: 0 auto;
+    top: 2em;
+
+    width: 50%;
+}
+
+.demoContainer h2 {
+    font-size: 2.5em;
+}
+
+.demoLanguageList {
+    margin-top: 20px;
+}
+
+.demoLanguageList ul {
+    list-style: none;
+}
+
+.demoLanguageList li {
+    background-color: #EEE;
+    border: 1px solid #BBB;
+
+    font-size: 0.8em;
+    color: #333;
+
+    display: inline-block;
+
+    padding: 2px 5px;
+}
+
+.demoLanguageList li.demoListHighlight {
+    background-color: #333;
+    color: #FFF;
 }

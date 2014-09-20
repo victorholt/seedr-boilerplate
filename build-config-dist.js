@@ -5,7 +5,7 @@
  * Build configuration constants.
  *
  * This file contains all of the build configurations which are used
- * when compiled by Grunt.
+ * when compiled by GulpJS.
  *
  * @class BuildConfig
  * @static
@@ -44,7 +44,7 @@ var BuildConfig = {
     DIR_DEST: './public',
 
     /**
-     * The temporary directory for storing files during Grunt tasks.
+     * The temporary directory for storing files during GulpJS tasks.
      *
      * @property DIR_TMP
      * @type String

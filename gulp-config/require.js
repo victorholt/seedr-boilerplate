@@ -67,12 +67,13 @@ proto.init = function() {
 proto.requireJS = function() {
     // TODO: Look into this as requireJS only runs currently
     //       if we are building for production...
-    var optimize = this.buildEnv.production ? 'uglify' : 'none';
+    var optimize = this.buildEnv.production ? 'uglify2' : 'none';
 
     rjs({
         baseUrl: path.join(buildConfig.DIR_TMP, buildConfig.DIR_ASSETS + '/scripts'),
         useStrict: true,
         optimize: optimize,
+
         uglify2: {
             output: {
                 beautify: false,
@@ -87,7 +88,7 @@ proto.requireJS = function() {
 
         mainConfigFile: path.join(buildConfig.DIR_TMP, buildConfig.DIR_ASSETS + '/scripts/config.js'),
         name: 'main',
-        out: path.join(buildConfig.DIR_DEST, buildConfig.DIR_ASSETS + '/scripts/main.min.js')
+        out: path.join(buildConfig.DIR_TMP, buildConfig.DIR_ASSETS + '/scripts/main.min.js')
     })
     .pipe(this.gulp.dest('./'));
 };

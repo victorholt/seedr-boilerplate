@@ -72,8 +72,12 @@ proto.init = function() {
  */
 proto.sass = function() {
     return this.gulp.src(path.join(buildConfig.DIR_SRC, buildConfig.DIR_ASSETS + '/scss/**/*.scss'))
-               .pipe(sass())
-               .pipe(this.gulp.dest(path.join(buildConfig.DIR_TMP, buildConfig.DIR_ASSETS + '/css')));
+                    .pipe(sass({
+                        errLogToConsole: true,
+                        sourceComments: 'map',
+                        sourceMap: 'sass'
+                    }))
+                    .pipe(this.gulp.dest(path.join(buildConfig.DIR_TMP, buildConfig.DIR_ASSETS + '/css')));
 };
 
 // ---- //

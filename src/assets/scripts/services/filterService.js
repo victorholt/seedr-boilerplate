@@ -39,11 +39,12 @@ define(function(require, exports, module) { // jshint ignore:line
      * @returns {Boolean}
      */
     proto.match = function(filterInput, compareString) {
-        if (compareString.search(filterInput) < 0) {
-            return false;
-        }
+        // Replace special characters.
+        filterInput = filterInput.replace(/[^a-zA-Z0-9#\+]/gi, '__');
+        filterInput = filterInput.replace(/\+/g, '\\+');
 
-        return true;
+        var regExp = new RegExp('^' + filterInput, 'i');
+        return regExp.test(compareString);
     };
 
     return FilterService;

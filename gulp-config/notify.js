@@ -8,6 +8,8 @@
 // Required modules.
 ///////////////////////////////////////////////////////////////////////////
 var notify = require('gulp-notify');
+var path = require('path');
+var buildConfig = require('./../build-config');
 
 ///////////////////////////////////////////////////////////////////////////
 // Create Tasks
@@ -78,7 +80,7 @@ proto.notifyAll = function() {
  * @returns {gulp}
  */
 proto.notifyMedia = function() {
-    return this.gulp.src('./*')
+    return this.gulp.src(path.join(buildConfig.DIR_SRC, buildConfig.DIR_ASSETS + '/media/**'))
                .pipe(notify({'message': 'Media Tasks Finished'}));
 };
 
@@ -89,7 +91,7 @@ proto.notifyMedia = function() {
  * @returns {gulp}
  */
 proto.notifyCss = function() {
-    return this.gulp.src('./*')
+    return this.gulp.src(path.join(buildConfig.DIR_SRC, buildConfig.DIR_ASSETS + '/{scss,vendors}/**/*.scss'))
                .pipe(notify({'message': 'Css Tasks Finished'}));
 };
 
@@ -100,7 +102,7 @@ proto.notifyCss = function() {
  * @returns {gulp}
  */
 proto.notifyScripts = function() {
-    return this.gulp.src('./*')
+    return this.gulp.src(path.join(buildConfig.DIR_SRC, buildConfig.DIR_ASSETS + '/{scripts, vendors}/**/*.js'))
                .pipe(notify({'message': 'Scripts Tasks Finished'}));
 };
 
@@ -111,7 +113,7 @@ proto.notifyScripts = function() {
  * @returns {gulp}
  */
 proto.notifyMarkup = function() {
-    return this.gulp.src('./*')
+    return this.gulp.src(path.join(buildConfig.DIR_SRC, buildConfig.DIR_ASSETS + '/**/*.html'))
                .pipe(notify({'message': 'Markup Tasks Finished'}));
 };
 

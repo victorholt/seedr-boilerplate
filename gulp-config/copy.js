@@ -96,6 +96,7 @@ proto.copyMarkup = function() {
         ]
     )
     .pipe(template(this.buildEnv.template))
+    .pipe(this.gulp.dest(buildConfig.DIR_TMP))
     .pipe(this.gulp.dest(buildConfig.DIR_DEST));
 };
 
