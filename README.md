@@ -29,6 +29,8 @@ are requirements if you want to get the most of the framework.
 Ensure your NodeJS and Bower installation is current.
 
 ##Running Demo
+![Demo Example](docs/images/demo.png)
+
 There are a number of ways to run the demo, although the following steps below
 get the demo application up and running the quickest.
 
